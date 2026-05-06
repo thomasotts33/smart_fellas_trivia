@@ -4,10 +4,10 @@ const prisma = new PrismaClient();
 
 async function main() {
   const user = await prisma.user.upsert({
-    where: { email: "thomas@example.com" },
-    update: {},
+    where: { email: "thomas@smartfellas.local" },
+    update: { name: "Thomas" },
     create: {
-      email: "thomas@example.com",
+      email: "thomas@smartfellas.local",
       name: "Thomas",
     },
   });
@@ -36,8 +36,9 @@ async function main() {
     },
   });
 
+  const categories = [];
   for (const name of ["History", "Music", "Sports", "Movies", "Science", "Literature"]) {
-    await prisma.category.upsert({
+    const category = await prisma.category.upsert({
       where: {
         teamId_name: {
           teamId: team.id,
@@ -50,7 +51,78 @@ async function main() {
         name,
       },
     });
+    categories.push(category);
   }
+
+  await prisma.game.deleteMany({ where: { teamId: team.id } });
+
+  const firstGame = await prisma.game.create({
+    data: {
+      teamId: team.id,
+      createdById: user.id,
+      playedAt: new Date("2026-05-06T02:00:00.000Z"),
+      venueName: "Local Bar",
+      placement: 2,
+      totalTeams: 12,
+      prizeAmount: 25,
+      prizeLabel: "Gift card",
+      totalEarned: 58,
+      totalPossible: 93,
+      percentCorrect: 62.37,
+      questions: {
+        create: Array.from({ length: 18 }, (_, index) => {
+          const roundNumber = Math.floor(index / 3) + 1;
+          const questionNo = (index % 3) + 1;
+          const wagers = roundNumber <= 3 ? [2, 4, 6] : [5, 7, 9];
+          const wagerValue = wagers[index % 3];
+          const isCorrect = index % 4 !== 0;
+
+          return {
+            categoryId: categories[index % categories.length].id,
+            roundNumber,
+            questionNo,
+            wagerValue,
+            isCorrect,
+            earnedPoints: isCorrect ? wagerValue : 0,
+          };
+        }),
+      },
+      halftime: {
+        create: {
+          categoryLabel: "Movies",
+          partsTotal: 4,
+          partsCorrect: 3,
+          pointsPossible: 12,
+          earnedPoints: 9,
+        },
+      },
+      finalQuestion: {
+        create: {
+          categoryLabel: "Literature",
+          wagerValue: 8,
+          isCorrect: false,
+          earnedPoints: -8,
+        },
+      },
+    },
+  });
+
+  await prisma.game.create({
+    data: {
+      teamId: team.id,
+      createdById: user.id,
+      playedAt: new Date("2026-05-13T02:00:00.000Z"),
+      venueName: "Local Bar",
+      placement: 1,
+      totalTeams: 10,
+      prizeAmount: 40,
+      prizeLabel: "Tab credit",
+      totalEarned: 70,
+      totalPossible: 95,
+      percentCorrect: 73.68,
+      notes: `Follow-up game after ${firstGame.id}.`,
+    },
+  });
 }
 
 main()
