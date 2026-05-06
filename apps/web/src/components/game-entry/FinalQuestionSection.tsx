@@ -5,6 +5,8 @@ type Props = {
   onChange: (value: GameFormState["finalQuestion"]) => void;
 };
 
+const finalQuestionTypes = ["Add numbers together", "Earliest to latest", "Largest to smallest"];
+
 export function FinalQuestionSection({ value, onChange }: Props) {
   const earned = Number(value.wagerValue || 0) * (value.isCorrect ? 1 : -1);
 
@@ -13,8 +15,20 @@ export function FinalQuestionSection({ value, onChange }: Props) {
       <h2 style={{ fontFamily: "Oswald, Inter, sans-serif", margin: 0 }}>Final</h2>
       <div className="sf-form-grid">
         <label style={{ display: "grid", gap: "6px", fontWeight: 700 }}>
-          Category
-          <input style={{ border: "1px solid var(--sf-border)", borderRadius: "6px", padding: "10px 12px" }} value={value.categoryLabel} onChange={(event) => onChange({ ...value, categoryLabel: event.target.value })} />
+          Type
+          <select
+            required
+            style={{ border: "1px solid var(--sf-border)", borderRadius: "6px", padding: "10px 12px" }}
+            value={value.categoryLabel}
+            onChange={(event) => onChange({ ...value, categoryLabel: event.target.value })}
+          >
+            <option value="">Choose type</option>
+            {finalQuestionTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
         </label>
         <label style={{ display: "grid", gap: "6px", fontWeight: 700 }}>
           Wager

@@ -11,10 +11,6 @@ export function HalftimeSection({ value, onChange }: Props) {
       <h2 style={{ fontFamily: "Oswald, Inter, sans-serif", margin: 0 }}>Halftime</h2>
       <div className="sf-form-grid">
         <label style={{ display: "grid", gap: "6px", fontWeight: 700 }}>
-          Category
-          <input style={{ border: "1px solid var(--sf-border)", borderRadius: "6px", padding: "10px 12px" }} value={value.categoryLabel} onChange={(event) => onChange({ ...value, categoryLabel: event.target.value })} />
-        </label>
-        <label style={{ display: "grid", gap: "6px", fontWeight: 700 }}>
           Parts correct
           <input min={0} type="number" style={{ border: "1px solid var(--sf-border)", borderRadius: "6px", padding: "10px 12px" }} value={value.partsCorrect} onChange={(event) => onChange({ ...value, partsCorrect: event.target.value })} />
         </label>

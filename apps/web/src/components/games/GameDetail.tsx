@@ -50,12 +50,12 @@ export function GameDetail({ game }: { game: GameDetailData }) {
         <h2 style={{ fontFamily: "Oswald, Inter, sans-serif", margin: "0 0 8px" }}>Halftime & Final</h2>
         <p>
           {game.halftime
-            ? `${game.halftime.categoryLabel || "Halftime"}: ${game.halftime.partsCorrect}/${game.halftime.partsTotal}, ${game.halftime.earnedPoints}/${game.halftime.pointsPossible} pts`
+            ? `Halftime: ${game.halftime.partsCorrect}/${game.halftime.partsTotal}, ${game.halftime.earnedPoints}/${game.halftime.pointsPossible} pts`
             : "No halftime logged"}
         </p>
         <p>
           {game.finalQuestion
-            ? `${game.finalQuestion.categoryLabel || "Final"}: wager ${game.finalQuestion.wagerValue}, ${game.finalQuestion.earnedPoints} pts`
+            ? `Final type: ${game.finalQuestion.categoryLabel || "Not set"}, wager ${game.finalQuestion.wagerValue}, ${game.finalQuestion.earnedPoints} pts`
             : "No final logged"}
         </p>
       </section>

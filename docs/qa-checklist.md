@@ -25,6 +25,8 @@ Use this before sharing SmartFellas with beta teammates.
 - [ ] Correct regular questions add the selected wager.
 - [ ] Wrong regular questions earn 0.
 - [ ] Halftime calculates partial credit from `partsCorrect / partsTotal * pointsPossible`.
+- [ ] Halftime entry does not ask for a category.
+- [ ] Final entry asks for Type: add numbers together, earliest to latest, or largest to smallest.
 - [ ] Final correct adds the final wager.
 - [ ] Final wrong subtracts the final wager.
 - [ ] Game totals match the paper host sheet after entry.

@@ -89,7 +89,7 @@ async function main() {
       },
       halftime: {
         create: {
-          categoryLabel: "Movies",
+          categoryLabel: null,
           partsTotal: 4,
           partsCorrect: 3,
           pointsPossible: 12,
@@ -98,7 +98,7 @@ async function main() {
       },
       finalQuestion: {
         create: {
-          categoryLabel: "Literature",
+          categoryLabel: "Largest to smallest",
           wagerValue: 8,
           isCorrect: false,
           earnedPoints: -8,
@@ -140,7 +140,7 @@ async function main() {
       },
       halftime: {
         create: {
-          categoryLabel: "Sports",
+          categoryLabel: null,
           partsTotal: 4,
           partsCorrect: 4,
           pointsPossible: 12,
@@ -149,7 +149,7 @@ async function main() {
       },
       finalQuestion: {
         create: {
-          categoryLabel: "History",
+          categoryLabel: "Add numbers together",
           wagerValue: 10,
           isCorrect: true,
           earnedPoints: 10,

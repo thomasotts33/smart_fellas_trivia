@@ -39,7 +39,7 @@ function initialState(): GameFormState {
         })),
       };
     }),
-    halftime: { categoryLabel: "", partsCorrect: "0", partsTotal: "4", pointsPossible: "12" },
+    halftime: { partsCorrect: "0", partsTotal: "4", pointsPossible: "12" },
     finalQuestion: { categoryLabel: "", wagerValue: "0", isCorrect: false },
   };
 }
@@ -59,7 +59,7 @@ function toPayload(state: GameFormState) {
     notes: state.notes || null,
     rounds: state.rounds,
     halftime: {
-      categoryLabel: state.halftime.categoryLabel || null,
+      categoryLabel: null,
       partsCorrect: Number(state.halftime.partsCorrect),
       partsTotal: Number(state.halftime.partsTotal),
       pointsPossible: Number(state.halftime.pointsPossible),

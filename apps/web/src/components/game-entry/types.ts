@@ -20,7 +20,6 @@ export type GameFormState = {
   notes: string;
   rounds: RoundState[];
   halftime: {
-    categoryLabel: string;
     partsTotal: string;
     partsCorrect: string;
     pointsPossible: string;
