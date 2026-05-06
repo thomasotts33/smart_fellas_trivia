@@ -1,6 +1,9 @@
 import { Sidebar } from "./Sidebar";
+import { getCurrentTeam } from "@/lib/team";
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+export async function AppShell({ children }: { children: React.ReactNode }) {
+  const { team } = await getCurrentTeam();
+
   return (
     <div
       style={{
@@ -9,7 +12,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         minHeight: "100vh",
       }}
     >
-      <Sidebar />
+      <Sidebar role={team?.role} />
       <main style={{ padding: "24px" }}>{children}</main>
     </div>
   );

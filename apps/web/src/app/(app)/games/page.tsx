@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { GameHistoryTable, type GameSummary } from "@/components/games/GameHistoryTable";
 import { apiFetch } from "@/lib/api";
+import { canManageGames } from "@/lib/permissions";
 import { getCurrentTeam } from "@/lib/team";
 
 export default async function GamesPage() {
@@ -29,9 +30,11 @@ export default async function GamesPage() {
           <p style={{ color: "var(--sf-primary)", fontWeight: 700, margin: "0 0 8px" }}>Game history</p>
           <h1 style={{ margin: 0 }}>{team.name}</h1>
         </div>
-        <Link href="/games/new" style={{ background: "var(--sf-primary)", borderRadius: "6px", color: "var(--sf-on-primary)", fontWeight: 700, padding: "10px 14px" }}>
-          Log game
-        </Link>
+        {canManageGames(team.role) ? (
+          <Link href="/games/new" style={{ background: "var(--sf-primary)", borderRadius: "6px", color: "var(--sf-on-primary)", fontWeight: 700, padding: "10px 14px" }}>
+            Log game
+          </Link>
+        ) : null}
       </div>
       <GameHistoryTable games={history.games} />
     </section>

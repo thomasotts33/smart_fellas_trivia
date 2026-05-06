@@ -1,14 +1,17 @@
 import Link from "next/link";
+import { canManageGames } from "@/lib/permissions";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/games", label: "Games" },
-  { href: "/games/new", label: "New Game" },
+  { href: "/games/new", label: "New Game", requiresGameManager: true },
   { href: "/team/settings", label: "Team" },
   { href: "/settings", label: "Settings" },
 ];
 
-export function Sidebar() {
+export function Sidebar({ role }: { role?: string | null }) {
+  const visibleNavItems = navItems.filter((item) => !item.requiresGameManager || canManageGames(role));
+
   return (
     <aside
       style={{
@@ -29,7 +32,7 @@ export function Sidebar() {
         SmartFellas
       </p>
       <nav style={{ display: "grid", gap: "8px" }}>
-        {navItems.map((item) => (
+        {visibleNavItems.map((item) => (
           <Link
             key={item.href}
             href={item.href}

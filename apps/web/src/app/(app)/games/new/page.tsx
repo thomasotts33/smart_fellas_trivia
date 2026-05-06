@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { GameForm } from "@/components/game-entry/GameForm";
+import { canManageGames } from "@/lib/permissions";
 import { getCurrentTeam } from "@/lib/team";
 
 export default async function NewGamePage() {
@@ -12,6 +13,15 @@ export default async function NewGamePage() {
         <Link href="/team/new" style={{ color: "var(--sf-primary)", fontWeight: 700 }}>
           Create your team
         </Link>
+      </section>
+    );
+  }
+
+  if (!canManageGames(team.role)) {
+    return (
+      <section>
+        <h1>View-only access</h1>
+        <p style={{ color: "var(--sf-muted)" }}>Members can review stats and history, but only owners and admins can log games.</p>
       </section>
     );
   }

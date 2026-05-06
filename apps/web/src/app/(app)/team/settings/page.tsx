@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { InviteMemberForm } from "@/components/team/InviteMemberForm";
 import { TeamMemberList } from "@/components/team/TeamMemberList";
 import { apiFetch } from "@/lib/api";
+import { canManageMembers } from "@/lib/permissions";
 import { getAuthOptions, getSessionIdentity } from "@/lib/session";
 
 type MeResponse = {
@@ -42,6 +44,7 @@ export default async function TeamSettingsPage() {
         <p style={{ color: "var(--sf-muted)", margin: 0 }}>/{team.slug}</p>
       </div>
       <TeamMemberList members={team.members} />
+      {canManageMembers(firstTeam.role) ? <InviteMemberForm teamId={team.id} /> : null}
     </section>
   );
 }
