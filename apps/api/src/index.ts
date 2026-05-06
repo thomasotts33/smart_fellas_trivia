@@ -3,8 +3,10 @@ import express, { type ErrorRequestHandler } from "express";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
 import { config } from "./config.js";
+import { analyticsRouter } from "./routes/analytics.js";
 import { isHttpError } from "./http/errors.js";
 import { categoriesRouter } from "./routes/categories.js";
+import { gamesRouter } from "./routes/games.js";
 import { healthRouter } from "./routes/health.js";
 import { meRouter } from "./routes/me.js";
 import { teamsRouter } from "./routes/teams.js";
@@ -33,6 +35,8 @@ export function createApp() {
   app.use("/api", meRouter);
   app.use("/api", teamsRouter);
   app.use("/api", categoriesRouter);
+  app.use("/api", gamesRouter);
+  app.use("/api", analyticsRouter);
 
   app.use((_req, res) => {
     res.status(404).json({ error: "Not found" });

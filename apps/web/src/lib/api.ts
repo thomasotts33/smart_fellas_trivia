@@ -33,6 +33,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
 
   const response = await fetch(`${clientConfig.API_BASE_URL}${path}`, {
     ...options,
+    cache: options.cache ?? "no-store",
     headers,
   });
 

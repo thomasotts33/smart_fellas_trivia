@@ -66,9 +66,9 @@ async function main() {
       totalTeams: 12,
       prizeAmount: 25,
       prizeLabel: "Gift card",
-      totalEarned: 58,
-      totalPossible: 93,
-      percentCorrect: 62.37,
+      totalEarned: 76,
+      totalPossible: 119,
+      percentCorrect: 63.87,
       questions: {
         create: Array.from({ length: 18 }, (_, index) => {
           const roundNumber = Math.floor(index / 3) + 1;
@@ -78,7 +78,7 @@ async function main() {
           const isCorrect = index % 4 !== 0;
 
           return {
-            categoryId: categories[index % categories.length].id,
+            categoryId: categories[index % categories.length]!.id,
             roundNumber,
             questionNo,
             wagerValue,
@@ -117,10 +117,44 @@ async function main() {
       totalTeams: 10,
       prizeAmount: 40,
       prizeLabel: "Tab credit",
-      totalEarned: 70,
-      totalPossible: 95,
-      percentCorrect: 73.68,
+      totalEarned: 121,
+      totalPossible: 121,
+      percentCorrect: 100,
       notes: `Follow-up game after ${firstGame.id}.`,
+      questions: {
+        create: Array.from({ length: 18 }, (_, index) => {
+          const roundNumber = Math.floor(index / 3) + 1;
+          const questionNo = (index % 3) + 1;
+          const wagers = roundNumber <= 3 ? [2, 4, 6] : [5, 7, 9];
+          const wagerValue = wagers[index % 3]!;
+
+          return {
+            categoryId: categories[(index + 2) % categories.length]!.id,
+            roundNumber,
+            questionNo,
+            wagerValue,
+            isCorrect: true,
+            earnedPoints: wagerValue,
+          };
+        }),
+      },
+      halftime: {
+        create: {
+          categoryLabel: "Sports",
+          partsTotal: 4,
+          partsCorrect: 4,
+          pointsPossible: 12,
+          earnedPoints: 12,
+        },
+      },
+      finalQuestion: {
+        create: {
+          categoryLabel: "History",
+          wagerValue: 10,
+          isCorrect: true,
+          earnedPoints: 10,
+        },
+      },
     },
   });
 }

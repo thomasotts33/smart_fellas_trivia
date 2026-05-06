@@ -1,12 +1,16 @@
 :root {
   --sf-primary: #8f2731;
   --sf-on-primary: #fff8ec;
+  --sf-primary-muted: #f2dde0;
   --sf-accent: #d8a23a;
   --sf-surface: #fff8ec;
   --sf-surface-raised: #ffffff;
   --sf-on-surface: #1f2428;
   --sf-muted: #6d7378;
   --sf-border: #d8cbbb;
+  --sf-success: #2f7d4f;
+  --sf-error: #b23b3b;
+  --sf-warning: #b97912;
 }
 
 * {
