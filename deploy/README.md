@@ -11,8 +11,8 @@ This deployment is for a private Tailscale beta on one Linux server.
 
 ```env
 TAILSCALE_IP="100.x.y.z"
-POSTGRES_PASSWORD="replace-with-a-long-random-password"
-DATABASE_URL="postgresql://smartfellas:replace-with-a-long-random-password@db:5432/smartfellas"
+POSTGRES_PASSWORD="replace-with-a-long-random-hex-password"
+DATABASE_URL="postgresql://smartfellas:replace-with-a-long-random-hex-password@db:5432/smartfellas"
 NEXTAUTH_URL="http://100.x.y.z:3000"
 NEXTAUTH_SECRET="replace-with-a-long-random-secret"
 AUTH_TRUST_HOST=true
@@ -26,6 +26,8 @@ NEXT_PUBLIC_PRIVATE_BETA_EMAIL="thomas@smartfellas.local"
 ```
 
 The private beta identity is only appropriate for a Tailscale-only deployment. Do not use it for a public internet deployment.
+
+Use an alphanumeric or hex-only Postgres password here. If the password includes URL-special characters, they must be URL-encoded in `DATABASE_URL`.
 
 ## Commands
 
