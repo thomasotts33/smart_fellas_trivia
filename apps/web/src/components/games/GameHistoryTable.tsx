@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { formatGameDate } from "@/lib/dates";
 
 export type GameSummary = {
   id: string;
@@ -33,7 +34,7 @@ export function GameHistoryTable({ games }: { games: GameSummary[] }) {
         <tbody>
           {games.map((game) => (
             <tr key={game.id} style={{ borderTop: "1px solid var(--sf-border)" }}>
-              <td style={{ padding: "10px" }}>{new Date(game.playedAt).toLocaleDateString()}</td>
+              <td style={{ padding: "10px" }}>{formatGameDate(game.playedAt)}</td>
               <td style={{ padding: "10px" }}>{game.venueName || "Trivia night"}</td>
               <td style={{ padding: "10px" }}>
                 {game.placement ? `${game.placement}/${game.totalTeams ?? "?"}` : "-"}

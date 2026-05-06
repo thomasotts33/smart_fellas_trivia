@@ -41,15 +41,20 @@ describe("analytics APIs", () => {
       .post(`/api/teams/${teamId}/games`)
       .set(auth(ownerEmail))
       .send(buildGamePayload({ playedAt: "2026-05-13T02:00:00.000Z", placement: 1 }));
+    await request(app)
+      .post(`/api/teams/${teamId}/games`)
+      .set(auth(ownerEmail))
+      .send(buildGamePayload({ playedAt: "2026-05-20T02:00:00.000Z", placement: 4, prizeAmount: 50 }));
 
     const summary = await request(app).get(`/api/teams/${teamId}/analytics/summary`).set(auth(ownerEmail));
     expect(summary.status).toBe(200);
-    expect(summary.body.gamesLogged).toBe(2);
+    expect(summary.body.gamesLogged).toBe(3);
     expect(summary.body.averagePercentCorrect).toBeGreaterThan(0);
+    expect(summary.body.prizesWon).toBe(2);
 
     const trends = await request(app).get(`/api/teams/${teamId}/analytics/trends`).set(auth(ownerEmail));
     expect(trends.status).toBe(200);
-    expect(trends.body.percentCorrectOverTime).toHaveLength(2);
+    expect(trends.body.percentCorrectOverTime).toHaveLength(3);
     expect(trends.body.pointsOverTime[0]).toEqual(expect.objectContaining({ value: expect.any(Number) }));
   });
 });

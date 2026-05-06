@@ -1,7 +1,7 @@
 import type { GameSummary } from "@/components/games/GameHistoryTable";
 
 export function PrizeHistory({ games }: { games: GameSummary[] }) {
-  const prizeGames = games.filter((game) => game.prizeAmount || game.prizeLabel);
+  const prizeGames = games.filter((game) => (game.prizeAmount || game.prizeLabel) && (game.placement === null || game.placement <= 3));
   const totalPrizeAmount = prizeGames.reduce((sum, game) => sum + (game.prizeAmount ?? 0), 0);
 
   return (

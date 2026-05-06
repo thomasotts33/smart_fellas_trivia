@@ -37,7 +37,7 @@ export function GameMetaSection({ value, onChange }: Props) {
           <input style={inputStyle} min={0} step="0.01" type="number" value={value.prizeAmount} onChange={(event) => onChange({ ...value, prizeAmount: event.target.value })} />
         </label>
         <label style={{ display: "grid", gap: "6px", fontWeight: 700 }}>
-          Prize label
+          Prize description
           <input style={inputStyle} value={value.prizeLabel} onChange={(event) => onChange({ ...value, prizeLabel: event.target.value })} />
         </label>
       </div>

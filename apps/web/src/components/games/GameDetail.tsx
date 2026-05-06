@@ -1,4 +1,5 @@
 import { RoundBreakdown, type GameRound } from "./RoundBreakdown";
+import { formatGameDate } from "@/lib/dates";
 
 export type GameDetailData = {
   playedAt: string;
@@ -21,7 +22,7 @@ export function GameDetail({ game }: { game: GameDetailData }) {
     <section style={{ display: "grid", gap: "18px" }}>
       <div>
         <p style={{ color: "var(--sf-primary)", fontWeight: 700, margin: "0 0 8px" }}>
-          {new Date(game.playedAt).toLocaleDateString()}
+          {formatGameDate(game.playedAt)}
         </p>
         <h1 style={{ margin: "0 0 8px" }}>{game.venueName || "Trivia night"}</h1>
         <p style={{ color: "var(--sf-muted)", margin: 0 }}>

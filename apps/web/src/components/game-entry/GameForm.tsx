@@ -50,7 +50,7 @@ function optionalNumber(value: string) {
 
 function toPayload(state: GameFormState) {
   return {
-    playedAt: new Date(`${state.playedAt}T02:00:00.000Z`).toISOString(),
+    playedAt: new Date(`${state.playedAt}T12:00:00.000Z`).toISOString(),
     venueName: state.venueName || null,
     placement: optionalNumber(state.placement),
     totalTeams: optionalNumber(state.totalTeams),

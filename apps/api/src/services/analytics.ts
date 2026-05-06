@@ -4,6 +4,10 @@ function toNumber(value: unknown) {
   return Number(value ?? 0);
 }
 
+function isPrizeNight(game: { placement: number | null; prizeAmount: unknown; prizeLabel: string | null }) {
+  return Boolean((game.prizeAmount || game.prizeLabel) && (game.placement === null || game.placement <= 3));
+}
+
 export async function getAnalyticsSummary(teamId: string) {
   const games = await prisma.game.findMany({
     where: { teamId },
@@ -40,7 +44,7 @@ export async function getAnalyticsSummary(teamId: string) {
             (games.reduce((sum, game) => sum + Number(game.percentCorrect), 0) / games.length).toFixed(2),
           )
         : 0,
-    prizesWon: games.filter((game) => game.prizeAmount || game.prizeLabel).length,
+    prizesWon: games.filter(isPrizeNight).length,
     latestGame: games.at(-1)
       ? {
           id: games.at(-1)?.id,

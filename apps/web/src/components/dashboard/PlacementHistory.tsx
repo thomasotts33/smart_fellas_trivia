@@ -1,4 +1,5 @@
 import type { DataPoint } from "@/components/charts/TrendLineChart";
+import { formatGameDate } from "@/lib/dates";
 
 export function PlacementHistory({ data }: { data: DataPoint[] }) {
   return (
@@ -9,7 +10,7 @@ export function PlacementHistory({ data }: { data: DataPoint[] }) {
       {data.length === 0 ? <p style={{ color: "var(--sf-muted)", margin: 0 }}>No placements yet.</p> : null}
       {data.slice(-5).map((point) => (
         <p key={point.date} style={{ margin: "0 0 6px" }}>
-          {new Date(point.date).toLocaleDateString()}: <strong>{point.value}</strong>
+          {formatGameDate(point.date)}: <strong>{point.value}</strong>
         </p>
       ))}
     </section>

@@ -1,6 +1,7 @@
 "use client";
 
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { formatGameDate } from "@/lib/dates";
 
 export type DataPoint = {
   date: string;
@@ -10,7 +11,7 @@ export type DataPoint = {
 export function TrendLineChart({ data, label }: { data: DataPoint[]; label: string }) {
   const chartData = data.map((point) => ({
     ...point,
-    dateLabel: new Date(point.date).toLocaleDateString(undefined, { month: "short", day: "numeric" }),
+    dateLabel: formatGameDate(point.date, { month: "short", day: "numeric" }),
   }));
 
   return (
