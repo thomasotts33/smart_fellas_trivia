@@ -35,7 +35,11 @@ export function RoundSection({ round, onChange }: Props) {
           }
         />
       ))}
-      {error ? <p style={{ color: "var(--sf-error, #B23B3B)", fontWeight: 700, margin: 0 }}>{error}</p> : null}
+      {error ? (
+        <p role="alert" style={{ color: "var(--sf-error, #B23B3B)", fontWeight: 700, margin: 0 }}>
+          {error}
+        </p>
+      ) : null}
     </section>
   );
 }

@@ -15,7 +15,7 @@ export function RoundPerformance({ rounds }: { rounds: RoundAnalyticsItem[] }) {
       </h2>
       <div style={{ display: "grid", gap: "8px" }}>
         {rounds.map((round) => (
-          <div key={round.label} style={{ display: "grid", gap: "8px", gridTemplateColumns: "1fr auto" }}>
+          <div key={round.label} style={{ display: "grid", gap: "8px", gridTemplateColumns: "minmax(0, 1fr) auto" }}>
             <strong>{round.label}</strong>
             <span>
               {round.pointsEarned}/{round.pointsPossible}

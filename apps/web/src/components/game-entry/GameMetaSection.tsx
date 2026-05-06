@@ -15,7 +15,7 @@ export function GameMetaSection({ value, onChange }: Props) {
   return (
     <section style={{ border: "1px solid var(--sf-border)", borderRadius: "8px", display: "grid", gap: "12px", padding: "16px" }}>
       <h2 style={{ fontFamily: "Oswald, Inter, sans-serif", margin: 0 }}>Game</h2>
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))" }}>
+      <div className="sf-form-grid">
         <label style={{ display: "grid", gap: "6px", fontWeight: 700 }}>
           Date
           <input style={inputStyle} type="date" value={value.playedAt} onChange={(event) => onChange({ ...value, playedAt: event.target.value })} />

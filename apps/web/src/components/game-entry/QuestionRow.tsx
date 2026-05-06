@@ -8,7 +8,7 @@ type Props = {
 
 export function QuestionRow({ question, wagers, onChange }: Props) {
   return (
-    <div style={{ alignItems: "end", display: "grid", gap: "8px", gridTemplateColumns: "48px minmax(160px, 1fr) minmax(152px, auto) minmax(116px, auto)" }}>
+    <div className="sf-question-row">
       <strong>Q{question.questionNo}</strong>
       <label style={{ display: "grid", gap: "6px" }}>
         Category
@@ -22,6 +22,8 @@ export function QuestionRow({ question, wagers, onChange }: Props) {
       <div style={{ display: "flex", gap: "6px" }}>
         {wagers.map((wager) => (
           <button
+            aria-label={`Set question ${question.questionNo} wager to ${wager}`}
+            aria-pressed={question.wagerValue === wager}
             key={wager}
             type="button"
             onClick={() => onChange({ ...question, wagerValue: wager })}
@@ -41,6 +43,7 @@ export function QuestionRow({ question, wagers, onChange }: Props) {
       </div>
       <label style={{ alignItems: "center", display: "flex", gap: "8px", fontWeight: 700 }}>
         <input
+          aria-label={`Question ${question.questionNo} correct`}
           checked={question.isCorrect}
           onChange={(event) => onChange({ ...question, isCorrect: event.target.checked })}
           type="checkbox"

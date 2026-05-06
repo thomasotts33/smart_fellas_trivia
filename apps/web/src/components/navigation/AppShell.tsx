@@ -5,15 +5,9 @@ export async function AppShell({ children }: { children: React.ReactNode }) {
   const { team } = await getCurrentTeam();
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "240px 1fr",
-        minHeight: "100vh",
-      }}
-    >
+    <div className="sf-app-shell">
       <Sidebar role={team?.role} />
-      <main style={{ padding: "24px" }}>{children}</main>
+      <main className="sf-app-main">{children}</main>
     </div>
   );
 }

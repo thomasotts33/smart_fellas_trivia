@@ -11,7 +11,7 @@ export function FinalQuestionSection({ value, onChange }: Props) {
   return (
     <section style={{ border: "1px solid var(--sf-border)", borderRadius: "8px", display: "grid", gap: "12px", padding: "16px" }}>
       <h2 style={{ fontFamily: "Oswald, Inter, sans-serif", margin: 0 }}>Final</h2>
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))" }}>
+      <div className="sf-form-grid">
         <label style={{ display: "grid", gap: "6px", fontWeight: 700 }}>
           Category
           <input style={{ border: "1px solid var(--sf-border)", borderRadius: "6px", padding: "10px 12px" }} value={value.categoryLabel} onChange={(event) => onChange({ ...value, categoryLabel: event.target.value })} />
@@ -21,7 +21,12 @@ export function FinalQuestionSection({ value, onChange }: Props) {
           <input max={20} min={0} type="number" style={{ border: "1px solid var(--sf-border)", borderRadius: "6px", padding: "10px 12px" }} value={value.wagerValue} onChange={(event) => onChange({ ...value, wagerValue: event.target.value })} />
         </label>
         <label style={{ alignItems: "center", display: "flex", gap: "8px", fontWeight: 700 }}>
-          <input checked={value.isCorrect} onChange={(event) => onChange({ ...value, isCorrect: event.target.checked })} type="checkbox" />
+          <input
+            aria-label="Final question correct"
+            checked={value.isCorrect}
+            onChange={(event) => onChange({ ...value, isCorrect: event.target.checked })}
+            type="checkbox"
+          />
           Correct
         </label>
       </div>

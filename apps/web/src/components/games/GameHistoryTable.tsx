@@ -20,7 +20,7 @@ export function GameHistoryTable({ games }: { games: GameSummary[] }) {
 
   return (
     <div style={{ border: "1px solid var(--sf-border)", borderRadius: "8px", overflowX: "auto" }}>
-      <table style={{ borderCollapse: "collapse", minWidth: "720px", width: "100%" }}>
+      <table aria-label="Game history" style={{ borderCollapse: "collapse", minWidth: "720px", width: "100%" }}>
         <thead style={{ background: "var(--sf-primary)", color: "var(--sf-on-primary)" }}>
           <tr>
             {["Date", "Venue", "Placement", "Points", "Correct", "Prize", ""].map((heading) => (

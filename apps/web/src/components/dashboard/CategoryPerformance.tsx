@@ -22,7 +22,7 @@ export function CategoryPerformance({ categories }: { categories: CategoryAnalyt
       <div style={{ display: "grid", gap: "10px", marginTop: "12px" }}>
         {topCategories.map((category) => (
           <div key={category.name}>
-            <div style={{ display: "flex", gap: "12px", justifyContent: "space-between" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px 12px", justifyContent: "space-between" }}>
               <strong>{category.name}</strong>
               <span>
                 {category.correct}/{category.total} · {category.percentCorrect}%

@@ -70,15 +70,15 @@ export default async function DashboardPage() {
       <KpiCards summary={summary} />
       {summary.gamesLogged === 0 ? <DashboardEmptyState /> : null}
       {summary.gamesLogged === 1 ? <DashboardEmptyState hasOneGame /> : null}
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+      <div className="sf-dashboard-grid">
         <TrendLineChart data={trends.percentCorrectOverTime} label="Percent correct" />
         <TrendLineChart data={trends.pointsOverTime} label="Points earned" />
       </div>
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
+      <div className="sf-dashboard-grid">
         <CategoryPerformance categories={categories.categories} />
         <WagerPerformance wagers={wagers.wagers} />
       </div>
-      <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))" }}>
+      <div className="sf-dashboard-grid">
         <RoundPerformance rounds={rounds.rounds} />
         <PrizeHistory games={history.games} />
         <PlacementHistory data={trends.placementOverTime} />

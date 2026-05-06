@@ -2,9 +2,10 @@
 
 import { useRouter } from "next/navigation";
 import type { FormEvent } from "react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { getErrorMessage } from "@/lib/errors";
+import { clearGameDraft, loadGameDraft, saveGameDraft } from "@/lib/formDrafts";
 import { validateRoundWagers } from "@/lib/validation/gameForm";
 import { FinalQuestionSection } from "./FinalQuestionSection";
 import { GameMetaSection } from "./GameMetaSection";
@@ -73,9 +74,13 @@ function toPayload(state: GameFormState) {
 
 export function GameForm({ teamId }: { teamId: string }) {
   const router = useRouter();
-  const [state, setState] = useState(initialState);
+  const [state, setState] = useState<GameFormState>(() => loadGameDraft(teamId) ?? initialState());
   const [error, setError] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    saveGameDraft(teamId, state);
+  }, [state, teamId]);
 
   const roundErrors = useMemo(
     () =>
@@ -100,6 +105,7 @@ export function GameForm({ teamId }: { teamId: string }) {
         method: "POST",
         body: JSON.stringify(toPayload(state)),
       });
+      clearGameDraft(teamId);
       router.push(`/games/${result.id}`);
       router.refresh();
     } catch (submitError) {
@@ -110,7 +116,7 @@ export function GameForm({ teamId }: { teamId: string }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "grid", gap: "16px" }}>
+    <form aria-busy={isSaving} onSubmit={handleSubmit} style={{ display: "grid", gap: "16px" }}>
       <GameMetaSection value={state} onChange={setState} />
       {state.rounds.slice(0, 3).map((round, index) => (
         <RoundSection
@@ -131,8 +137,13 @@ export function GameForm({ teamId }: { teamId: string }) {
         );
       })}
       <FinalQuestionSection value={state.finalQuestion} onChange={(finalQuestion) => setState({ ...state, finalQuestion })} />
-      {error ? <p style={{ color: "var(--sf-error, #B23B3B)", fontWeight: 700, margin: 0 }}>{error}</p> : null}
+      {error ? (
+        <p role="alert" style={{ color: "var(--sf-error, #B23B3B)", fontWeight: 700, margin: 0 }}>
+          {error}
+        </p>
+      ) : null}
       <button
+        aria-label="Save game"
         disabled={isSaving}
         style={{ background: "var(--sf-primary)", border: 0, borderRadius: "6px", color: "var(--sf-on-primary)", fontWeight: 700, padding: "12px 16px" }}
         type="submit"

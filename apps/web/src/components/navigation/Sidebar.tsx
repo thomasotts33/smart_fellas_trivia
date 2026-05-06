@@ -13,13 +13,7 @@ export function Sidebar({ role }: { role?: string | null }) {
   const visibleNavItems = navItems.filter((item) => !item.requiresGameManager || canManageGames(role));
 
   return (
-    <aside
-      style={{
-        borderRight: "1px solid var(--sf-border)",
-        background: "var(--sf-surface-raised)",
-        padding: "20px",
-      }}
-    >
+    <aside className="sf-sidebar">
       <p
         style={{
           color: "var(--sf-primary)",
@@ -31,7 +25,7 @@ export function Sidebar({ role }: { role?: string | null }) {
       >
         SmartFellas
       </p>
-      <nav style={{ display: "grid", gap: "8px" }}>
+      <nav aria-label="Primary navigation" style={{ display: "grid", gap: "8px" }}>
         {visibleNavItems.map((item) => (
           <Link
             key={item.href}

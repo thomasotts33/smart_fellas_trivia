@@ -16,7 +16,15 @@ export function TrendLineChart({ data, label }: { data: DataPoint[]; label: stri
   return (
     <section style={{ border: "1px solid var(--sf-border)", borderRadius: "8px", minHeight: "260px", padding: "16px" }}>
       <h2 style={{ fontFamily: "Oswald, Inter, sans-serif", fontSize: "20px", margin: "0 0 12px" }}>{label}</h2>
-      <div style={{ height: "190px" }}>
+      <div
+        aria-label={
+          chartData.length > 0
+            ? `${label} chart from ${chartData[0]?.dateLabel} to ${chartData.at(-1)?.dateLabel}.`
+            : `${label} chart with no data.`
+        }
+        className="sf-chart-frame"
+        role="img"
+      >
         <ResponsiveContainer height="100%" width="100%">
           <LineChart data={chartData} margin={{ bottom: 4, left: -18, right: 12, top: 8 }}>
             <CartesianGrid stroke="#D8CBBB" strokeDasharray="3 3" />
