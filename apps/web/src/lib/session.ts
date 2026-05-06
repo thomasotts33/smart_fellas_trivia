@@ -13,6 +13,8 @@ const developmentIdentity: SessionIdentity = {
   image: null,
 };
 
+const privateBetaEmail = process.env.SMARTFELLAS_PRIVATE_BETA_EMAIL;
+
 export async function getSessionIdentity(): Promise<SessionIdentity | null> {
   const session = await getServerSession(authOptions);
   const email = session?.user?.email;
@@ -27,6 +29,14 @@ export async function getSessionIdentity(): Promise<SessionIdentity | null> {
 
   if (process.env.NODE_ENV === "development") {
     return developmentIdentity;
+  }
+
+  if (privateBetaEmail) {
+    return {
+      email: privateBetaEmail,
+      name: process.env.SMARTFELLAS_PRIVATE_BETA_NAME ?? null,
+      image: null,
+    };
   }
 
   return null;

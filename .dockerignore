@@ -1,0 +1,10 @@
+.git
+.next
+apps/api/dist
+apps/web/.next
+apps/web/tsconfig.tsbuildinfo
+node_modules
+**/node_modules
+*.log
+.env
+deploy/.env

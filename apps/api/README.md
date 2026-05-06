@@ -31,7 +31,7 @@ PORT=4000
 4. Run `corepack pnpm db:generate`.
 5. Run migrations with `corepack pnpm prisma migrate deploy`.
 6. Build with `corepack pnpm --filter api build`.
-7. Start the API with `node apps/api/dist/index.js`.
+7. Start the API with `node apps/api/dist/src/index.js`.
 
 For a first local beta, seed data can be loaded with `corepack pnpm db:seed` after migrations.
 

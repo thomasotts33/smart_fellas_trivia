@@ -78,6 +78,8 @@ Use `.env.example` as the source of truth.
 - `NEXT_PUBLIC_API_BASE_URL`: API URL used by browser-side web requests.
 - `WEB_ORIGIN`: Web origin allowed by the API CORS policy.
 - `PORT`: API port.
+- `SMARTFELLAS_PRIVATE_BETA_EMAIL`: Optional Tailscale-only fallback identity for private beta deployments.
+- `NEXT_PUBLIC_PRIVATE_BETA_EMAIL`: Browser-side private beta identity for direct API form submissions. Do not use for public internet deployments.
 
 ## Deployment
 
@@ -100,6 +102,10 @@ AUTH_TRUST_HOST=true
 ### API Host
 
 See `apps/api/README.md`. The API needs PostgreSQL, Prisma migrations, and a public HTTPS URL for the web app.
+
+### Private Tailscale Server
+
+For a private all-in-one Linux server deployment, use `deploy/docker-compose.yml`. This keeps the app, API, and PostgreSQL on the same server and publishes the web/API ports on the server's Tailscale IP.
 
 ## Beta Handoff
 

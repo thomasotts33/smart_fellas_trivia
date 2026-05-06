@@ -8,6 +8,7 @@ type ApiFetchOptions = RequestInit & {
 };
 
 const developmentEmail = "thomas@smartfellas.local";
+const privateBetaEmail = process.env.NEXT_PUBLIC_PRIVATE_BETA_EMAIL;
 
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
   const headers = new Headers(options.headers);
@@ -17,7 +18,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     headers.set("Content-Type", "application/json");
   }
 
-  const token = options.token ?? (process.env.NODE_ENV === "development" ? developmentEmail : undefined);
+  const token = options.token ?? privateBetaEmail ?? (process.env.NODE_ENV === "development" ? developmentEmail : undefined);
 
   if (token) {
     headers.set("Authorization", `Bearer ${token}`);
