@@ -3,7 +3,11 @@ import { ApiError } from "./errors";
 
 type ApiFetchOptions = RequestInit & {
   token?: string;
+  userName?: string | null;
+  userImage?: string | null;
 };
+
+const developmentEmail = "thomas@smartfellas.local";
 
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
   const headers = new Headers(options.headers);
@@ -13,8 +17,18 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     headers.set("Content-Type", "application/json");
   }
 
-  if (options.token) {
-    headers.set("Authorization", `Bearer ${options.token}`);
+  const token = options.token ?? (process.env.NODE_ENV === "development" ? developmentEmail : undefined);
+
+  if (token) {
+    headers.set("Authorization", `Bearer ${token}`);
+  }
+
+  if (options.userName) {
+    headers.set("x-user-name", options.userName);
+  }
+
+  if (options.userImage) {
+    headers.set("x-user-image", options.userImage);
   }
 
   const response = await fetch(`${clientConfig.API_BASE_URL}${path}`, {
