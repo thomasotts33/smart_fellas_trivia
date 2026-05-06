@@ -1,0 +1,81 @@
+{
+  "meta": {
+    "createdAt": "2026-05-06T00:26:02Z",
+    "updatedAt": "2026-05-06T00:26:02Z",
+    "version": "1.1",
+    "plaidVersion": "1.0"
+  },
+  "creator": {
+    "name": "Thomas",
+    "expertise": "IT QA with intermediate software development experience and a practical understanding of project development lifecycles and methodologies",
+    "background": "Thomas works in IT QA and has intermediate software development experience, with a practical understanding of project lifecycles, testing, and how usable software gets built. He plays general knowledge bar trivia every Wednesday and wants to turn his team's recurring game nights into structured performance data. The initial product is for one trivia team to track KPIs like categories, games played, questions correct, prizes earned, and percent correct, so the team can spot strengths, weaknesses, and progress over time."
+  },
+  "purpose": {
+    "whoYouHelp": "A recurring weekly bar trivia team that wants to track performance over time, understand strengths by category, and make game night more strategic without turning it into homework.",
+    "problemYouSolve": "The team has a repeatable trivia format every Wednesday, but the performance data is hard to preserve and analyze. The paper sheet works during the game, but afterward it is difficult to turn rounds, categories, point wagers, correct answers, halftime partial credit, final wagers, prizes, and percent correct into useful trends.",
+    "desiredTransformation": "The team goes from relying on memory, loose paper sheets, and gut feelings to having a visual performance history. After each game, the app turns round results, categories, wagers, correct answers, prizes, and percent correct into charts and trends so the team can see where they are improving, which categories are strongest or weakest, and how strategy affects outcomes.",
+    "whyYou": "Thomas is a process-oriented trivia player who cares about patterns, measurement, and improvement. This project combines a game he already plays every Wednesday with his QA mindset and software development goals, giving him real weekly data, real users, and a practical reason to sharpen his IT and app-building skills."
+  },
+  "product": {
+    "name": "SmartFellas",
+    "oneLiner": "SmartFellas helps a trivia team see what they know, what they miss, and how they improve.",
+    "howItWorks": "After trivia night, Thomas opens SmartFellas, creates a new game, and enters the structured results from the paper sheet: round categories, point wagers, correct/incorrect outcomes, halftime partial credit, final category, final wager result, placement, and prizes. When saved, the app updates the team dashboard with percent correct, category trends, points earned, wager performance, and game history.",
+    "keyCapabilities": [
+      "Post-game trivia result logging",
+      "Category and round analytics",
+      "Wager performance tracking",
+      "Percent-correct trends",
+      "Prize and placement history"
+    ],
+    "platform": "web",
+    "marketDifferentiation": "Unlike scorekeeping apps, SmartFellas focuses on post-game performance trends. It is not trying to replace the trivia host or manage live play. It turns completed games into useful history, visual stats, and better team strategy.",
+    "magicMoment": "The dashboard shows percent correct and points earned improving across several Wednesdays, turning casual weekly play into a visible team story."
+  },
+  "audience": {
+    "primaryUser": "Thomas, the team stat keeper: a regular Wednesday trivia player who enjoys the game, remembers the close misses, and wants to know whether the team is actually improving. After each game, he is willing to spend a few minutes entering the sheet because the payoff is seeing real trends.",
+    "secondaryUsers": [
+      "Teammates who log in to view shared team stats, recent games, category strengths, progress trends, and prize history without managing data entry.",
+      "Future team admins from other trivia teams who create their own team spaces, add members, and track their own games using the same structured format."
+    ],
+    "currentAlternatives": "Today, the team mostly relies on host-provided paper sheets and phone photos. Thomas previously experimented with a loose Python GUI that allowed manual data entry and sent results to Power BI, but that setup was not a polished live product the team could easily access, view, or use immediately after the game.",
+    "frustrations": "The old Python plus Power BI setup proved the concept, but it is too heavy for the weekly habit. SmartFellas needs to feel lightweight enough for immediate post-game use, teammate access, and a polished shared experience."
+  },
+  "business": {
+    "revenueModel": "free",
+    "initialGoal": "SmartFellas is live, at least 3 teammates have accounts, and teammates regularly check the dashboard or game history after trivia night.",
+    "sixMonthVision": "SmartFellas supports multiple teams, each with their own members and games, and 2-3 outside trivia teams are testing it.",
+    "constraints": "SmartFellas needs to be useful, but the project is also a learning-oriented full-stack build. The stack should be modern and approachable while still exposing enough product logic for Thomas to grow his development skills.",
+    "goToMarket": "SmartFellas will start with Thomas's own team, then expand through the local trivia network by showing it to other regular teams or the host at the Wednesday venue. In parallel, Thomas may share the build as a portfolio or build-in-public project to demonstrate QA thinking, product planning, and full-stack development growth."
+  },
+  "feeling": {
+    "brandPersonality": "Bar-night strategist: casual, clever, confident, and slightly mischievous. SmartFellas leans into pub trivia energy while making the team feel sharper over time.",
+    "toneOfVoice": "Competitive but fun: confident, stats-forward, and casual enough for bar trivia. SmartFellas should celebrate progress, call out useful patterns, and keep the vibe light. Example success: 'Logged. Let's see what the numbers say.' Example error: 'Final wager needs a win or loss before we score it.'"
+  },
+  "techStack": {
+    "appType": "web",
+    "frontend": {
+      "choice": "Next.js",
+      "rationale": "Next.js fits a stats-heavy web app with teammate login, dashboards, future multi-team scaling, and strong support from modern AI coding tools."
+    },
+    "backend": {
+      "choice": "Node/Express API",
+      "rationale": "A custom Node/Express API gives Thomas practical reps with API design, backend structure, validation, auth boundaries, and testable business logic for scoring and analytics."
+    },
+    "database": {
+      "choice": "PostgreSQL",
+      "rationale": "PostgreSQL fits structured trivia history and analytics across teams, games, rounds, questions, categories, members, placements, and prizes."
+    },
+    "auth": {
+      "choice": "Auth.js",
+      "rationale": "Auth.js works well with Next.js and provides a practical middle path between hosted auth and fully custom security implementation."
+    },
+    "payments": {
+      "choice": "",
+      "rationale": ""
+    }
+  },
+  "tooling": {
+    "codingAgent": "other",
+    "codingAgentName": "Codex"
+  }
+}
