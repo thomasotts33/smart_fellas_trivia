@@ -472,7 +472,7 @@ Target 99.5% uptime during MVP beta. Game saves must be atomic: either the full 
 
 ## 8. UI/UX Requirements
 
-Visual tokens not yet defined. Run `/plaid design` before implementation begins.
+Visual tokens are defined in `docs/design.md`. Implement the UI with the SmartFellas design system: warm light surfaces, burgundy primary actions and headers, amber highlights, Oswald headings/labels, Inter body text, compact score-sheet form rows, pill-shaped wager/category chips, border-first panels, and restrained shadows only for floating layers.
 
 ### Screen: Sign In
 Route: `/sign-in`  
@@ -480,7 +480,7 @@ Purpose: Authenticate users.
 Layout: Centered auth panel with product name and concise copy.  
 States: loading session, auth form, auth error.  
 Key Interactions: sign in -> redirect to dashboard; failed sign-in -> show clear error.  
-Components Used: auth form, button, input, alert.
+Components Used: `button-primary`, `button-secondary`, `input`, `alert-error`, `form-section`.
 
 ### Screen: Team Setup
 Route: `/team/new`  
@@ -488,7 +488,7 @@ Purpose: Create the first team.
 Layout: Single form with team name and optional slug.  
 States: empty, submitting, validation error, success redirect.  
 Key Interactions: submit team -> create team -> dashboard.  
-Components Used: form, input, button, inline validation.
+Components Used: `form-section`, `input`, `button-primary`, `button-secondary`, `alert-error`.
 
 ### Screen: Dashboard
 Route: `/dashboard`  
@@ -496,7 +496,7 @@ Purpose: Show team performance at a glance.
 Layout: Header with team selector, KPI cards, trend charts, category chart/table, wager summary, recent games.  
 States: no team, no games, loading analytics, populated, error.  
 Key Interactions: change date range -> refetch analytics; click game -> detail page; click log game -> new game form.  
-Components Used: KPI card, line chart, bar chart, table, empty state, button.
+Components Used: `kpi-card`, `chart-panel`, `table-header`, `category-chip`, `wager-chip`, `button-primary`.
 
 ### Screen: New Game
 Route: `/games/new`  
@@ -504,7 +504,7 @@ Purpose: Enter a completed trivia sheet.
 Layout: Multi-section form: game meta, rounds 1-3, halftime, rounds 4-6, final, results.  
 States: draft, validation errors, saving, save success, save failure.  
 Key Interactions: enter category -> suggest existing categories; choose wagers -> enforce valid set; save -> API recalculates totals.  
-Components Used: form section, question row, select, input, toggle, button, alert.
+Components Used: `form-section`, `input`, `wager-chip`, `wager-chip-selected`, `category-chip`, `button-primary`, `button-secondary`, `alert-error`, `alert-success`.
 
 ### Screen: Game Detail
 Route: `/games/:gameId`  
@@ -512,7 +512,7 @@ Purpose: Review a logged game.
 Layout: Summary header, round-by-round details, halftime, final, placement/prize, edit button for admins.  
 States: loading, populated, permission denied, not found.  
 Key Interactions: edit -> open edit form; delete -> confirm dialog.  
-Components Used: summary card, table, badge, confirm dialog.
+Components Used: `kpi-card`, `form-section`, `table-header`, `category-chip`, `wager-chip-selected`, `button-secondary`, `modal`.
 
 ### Screen: Game History
 Route: `/games`  
@@ -520,7 +520,7 @@ Purpose: Browse logged games.
 Layout: Filterable table/list with date, venue, placement, points, percent correct, prize.  
 States: no games, loading, populated, error.  
 Key Interactions: filter/sort -> update list; click row -> detail.  
-Components Used: table, filters, pagination.
+Components Used: `form-section`, `table-header`, `category-chip`, `button-secondary`.
 
 ### Screen: Team Settings
 Route: `/team/settings`  
@@ -528,7 +528,7 @@ Purpose: View members and manage basic team settings.
 Layout: Team details form, member list, invite form.  
 States: loading, populated, permission denied, invite pending.  
 Key Interactions: invite teammate -> send/create membership; change role -> update permissions.  
-Components Used: form, table, button, badge.
+Components Used: `form-section`, `input`, `table-header`, `button-primary`, `button-secondary`, `category-chip`.
 
 ## 9. Auth Implementation
 

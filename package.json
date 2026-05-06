@@ -1,0 +1,32 @@
+{
+  "name": "smartfellas",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.18.3",
+  "scripts": {
+    "dev": "corepack pnpm -r --parallel dev",
+    "build": "corepack pnpm -r build",
+    "lint": "corepack pnpm -r lint",
+    "typecheck": "corepack pnpm -r typecheck",
+    "test": "corepack pnpm -r test",
+    "prisma": "prisma",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx prisma/seed.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "latest",
+    "@prisma/client": "^6.19.0",
+    "@types/node": "latest",
+    "eslint": "latest",
+    "prettier": "latest",
+    "prisma": "^6.19.0",
+    "tsx": "latest",
+    "typescript": "latest",
+    "typescript-eslint": "latest"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma",
+    "seed": "tsx prisma/seed.ts"
+  }
+}

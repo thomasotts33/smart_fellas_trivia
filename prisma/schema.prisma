@@ -1,0 +1,122 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../apps/api/src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(uuid()) @db.Uuid
+  name         String?
+  email        String       @unique
+  image        String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  memberships  TeamMember[]
+  createdGames Game[]       @relation("GameCreatedBy")
+}
+
+model Team {
+  id         String       @id @default(uuid()) @db.Uuid
+  name       String
+  slug       String       @unique
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  members    TeamMember[]
+  games      Game[]
+  categories Category[]
+}
+
+model TeamMember {
+  id        String   @id @default(uuid()) @db.Uuid
+  teamId    String   @db.Uuid
+  userId    String   @db.Uuid
+  role      String   @default("member")
+  createdAt DateTime @default(now())
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([teamId, userId])
+  @@index([userId])
+}
+
+model Category {
+  id        String     @id @default(uuid()) @db.Uuid
+  teamId    String     @db.Uuid
+  name      String
+  createdAt DateTime   @default(now())
+  team      Team       @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  questions Question[]
+
+  @@unique([teamId, name])
+  @@index([teamId])
+}
+
+model Game {
+  id            String         @id @default(uuid()) @db.Uuid
+  teamId        String         @db.Uuid
+  createdById   String         @db.Uuid
+  playedAt      DateTime
+  venueName     String?
+  placement     Int?
+  totalTeams    Int?
+  prizeAmount   Decimal?       @db.Decimal(10, 2)
+  prizeLabel    String?
+  notes         String?
+  totalEarned   Int            @default(0)
+  totalPossible Int            @default(0)
+  percentCorrect Decimal       @default(0) @db.Decimal(5, 2)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  team          Team           @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  createdBy     User           @relation("GameCreatedBy", fields: [createdById], references: [id])
+  questions     Question[]
+  halftime      Halftime?
+  finalQuestion FinalQuestion?
+
+  @@index([teamId, playedAt])
+}
+
+model Question {
+  id           String   @id @default(uuid()) @db.Uuid
+  gameId       String   @db.Uuid
+  categoryId   String   @db.Uuid
+  roundNumber  Int
+  questionNo   Int
+  wagerValue   Int
+  isCorrect    Boolean
+  earnedPoints Int
+  notes        String?
+  game         Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  category     Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([gameId, roundNumber, questionNo])
+  @@index([categoryId])
+  @@index([gameId, roundNumber])
+}
+
+model Halftime {
+  id             String @id @default(uuid()) @db.Uuid
+  gameId         String @unique @db.Uuid
+  categoryLabel  String?
+  partsTotal     Int    @default(4)
+  partsCorrect   Int
+  pointsPossible Int    @default(12)
+  earnedPoints   Int
+  notes          String?
+  game           Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+}
+
+model FinalQuestion {
+  id            String  @id @default(uuid()) @db.Uuid
+  gameId        String  @unique @db.Uuid
+  categoryLabel String?
+  wagerValue    Int
+  isCorrect     Boolean
+  earnedPoints  Int
+  notes         String?
+  game          Game    @relation(fields: [gameId], references: [id], onDelete: Cascade)
+}
