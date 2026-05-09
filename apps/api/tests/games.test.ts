@@ -1,5 +1,6 @@
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { auth } from "./auth.js";
 import { prisma } from "../src/db/prisma.js";
 import { createApp } from "../src/index.js";
 import { buildGamePayload } from "./gamePayload.js";
@@ -8,10 +9,6 @@ const app = createApp();
 const ownerEmail = "phase2-owner@smartfellas.test";
 const memberEmail = "phase2-member@smartfellas.test";
 const outsiderEmail = "phase2-outsider@smartfellas.test";
-
-function auth(email: string) {
-  return { Authorization: `Bearer ${email}`, "x-user-name": email.split("@")[0] };
-}
 
 async function cleanup() {
   await prisma.game.deleteMany({ where: { team: { slug: { startsWith: "phase2-games-" } } } });

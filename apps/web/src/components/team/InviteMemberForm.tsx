@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { apiFetch } from "@/lib/api";
 import { getErrorMessage } from "@/lib/errors";
@@ -11,6 +12,7 @@ type InviteResult = {
 };
 
 export function InviteMemberForm({ teamId }: { teamId: string }) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [role, setRole] = useState<"member" | "admin">("member");
   const [message, setMessage] = useState<string | null>(null);
@@ -35,6 +37,7 @@ export function InviteMemberForm({ teamId }: { teamId: string }) {
           ? `${result.email} can now view the team as ${result.role}.`
           : `${result.email} is noted as pending until they sign in.`,
       );
+      router.refresh();
     } catch (submitError) {
       setError(getErrorMessage(submitError));
     } finally {

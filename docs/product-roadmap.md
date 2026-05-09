@@ -255,6 +255,50 @@
   Files: `docs/qa-checklist.md`, `README.md`
   Notes: Include scoring test cases from the host sheet format, teammate access checks, dashboard checks, and known out-of-scope items. Verify: checklist covers the 90-day goal.
 
+## Phase 5: Settings and Production Auth
+
+> **Goal:** Move SmartFellas from private-beta/dev identity into real teammate accounts, then give owners and members a trustworthy settings area for account, team, and access management.
+
+**Reference sections - read these before starting this phase:**
+- PRD: § Auth Implementation, § API Specification, § UI/UX Requirements, § Security
+- Vision: § Product Strategy, § User Research, § Success Metrics
+- Design: `docs/design.md`, especially forms, navigation, and responsive rules.
+
+**Phase prompt - give this to your coding agent:**
+> "Read docs/product-roadmap.md and find Phase 5. Then read only the Reference sections listed above from docs/prd.md, docs/product-vision.md, and docs/design.md. Continue from the first unchecked task. After each task, mark it complete in the roadmap. When all tasks are done, create a branch `phase-5/settings-and-production-auth`, commit, push, and open a PR for review."
+
+- [x] **TASK-046** — Choose and configure the first real Auth.js provider
+  Files: `apps/web/package.json`, `apps/web/src/lib/auth.ts`, `apps/web/src/app/api/auth/[...nextauth]/route.ts`, `.env.example`, `README.md`
+  Notes: Use Google OAuth as the recommended default unless the team decides otherwise. Add required environment variables, wire provider configuration, preserve the existing `/sign-in` route, and document local/provider setup. Verify: a real provider button appears on `/sign-in` and the callback creates a valid session.
+
+- [x] **TASK-047** — Remove production reliance on dev/private-beta identity shims
+  Files: `apps/web/src/lib/session.ts`, `apps/web/src/lib/api.ts`, `apps/web/src/app/(app)/layout.tsx`, `apps/web/src/app/sign-in/page.tsx`
+  Notes: Keep a clearly gated local development fallback if useful, but production must require Auth.js session identity. Protected app routes should redirect unauthenticated users to `/sign-in` instead of silently using `SMARTFELLAS_PRIVATE_BETA_EMAIL` or `NEXT_PUBLIC_PRIVATE_BETA_EMAIL`. Verify: unauthenticated production-mode route access redirects, while signed-in access still reaches dashboard/team pages.
+
+- [x] **TASK-048** — Harden API authentication between web and API
+  Files: `apps/api/src/middleware/auth.ts`, `apps/api/src/config.ts`, `apps/web/src/lib/api.ts`, `apps/api/tests/teamAccess.test.ts`
+  Notes: Replace email-as-bearer-token with a server-trusted mechanism appropriate for the deployment, such as a signed internal header/token generated only by the Next.js server. The API must still sync users by email/name/image, but it should not accept arbitrary client-supplied email as proof of identity. Verify: unauthenticated and forged requests fail, legitimate server-originated requests pass, and existing team access tests cover the new behavior.
+
+- [x] **TASK-049** — Build the personal settings page
+  Files: `apps/web/src/app/(app)/settings/page.tsx`, `apps/web/src/components/settings/AccountSettings.tsx`, `apps/web/src/components/settings/TeamAccessSummary.tsx`, `apps/web/src/lib/session.ts`
+  Notes: Replace the stub with account profile details, signed-in email, current team membership/role, sign-out action, and empty/error states. Keep this separate from team administration so members understand what they can control personally. Verify: owner, admin, and member accounts all see accurate identity and access information.
+
+- [x] **TASK-050** — Add editable team settings for owners
+  Files: `apps/api/src/routes/teams.ts`, `apps/api/src/services/teams.ts`, `apps/api/src/schemas/teamSchemas.ts`, `apps/web/src/app/(app)/team/settings/page.tsx`, `apps/web/src/components/team/TeamSettingsForm.tsx`
+  Notes: Owners can update team name and slug with validation; admins/members can view but not edit. Preserve slug uniqueness and avoid breaking existing team links. Verify: owner updates succeed, duplicate slug returns a useful error, non-owner update attempts return 403.
+
+- [x] **TASK-051** — Add member role management and removal
+  Files: `apps/api/src/routes/teams.ts`, `apps/api/src/services/teamMembers.ts`, `apps/api/src/schemas/teamSchemas.ts`, `apps/web/src/components/team/TeamMemberList.tsx`, `apps/web/src/components/team/MemberRoleSelect.tsx`
+  Notes: Owners can promote/demote between `admin` and `member`, remove teammates, and cannot remove or demote the last owner. Keep API enforcement independent from hidden UI controls. Verify: role changes alter navigation/actions immediately after refresh and member-only users cannot access admin actions.
+
+- [x] **TASK-052** — Persist pending invites and resolve them on first sign-in
+  Files: `prisma/schema.prisma`, `prisma/migrations/*`, `apps/api/src/services/teamMembers.ts`, `apps/api/src/services/users.ts`, `apps/api/tests/teamAccess.test.ts`, `apps/web/src/components/team/InviteMemberForm.tsx`
+  Notes: Add a `TeamInvite` or equivalent pending-invite table keyed by team/email/role/status. Inviting an unknown email should persist a pending invite, and syncing a new user should attach matching pending invites to memberships. Verify: invite unknown email -> pending appears; sign in with that email -> membership is created and pending invite is resolved.
+
+- [x] **TASK-053** — Add settings and auth QA coverage
+  Files: `docs/qa-checklist.md`, `apps/api/tests/teamAccess.test.ts`, `README.md`
+  Notes: Extend QA with real-provider sign-in, sign-out, protected route redirects, owner/admin/member settings behavior, invite resolution, and forged auth rejection. Verify: `corepack pnpm typecheck` and API tests pass before the phase is marked complete.
+
 ## Agent Session Guide
 
 ### How to Use This Roadmap with Your Coding Agent

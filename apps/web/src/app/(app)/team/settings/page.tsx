@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { InviteMemberForm } from "@/components/team/InviteMemberForm";
 import { TeamMemberList } from "@/components/team/TeamMemberList";
+import { TeamSettingsForm } from "@/components/team/TeamSettingsForm";
 import { apiFetch } from "@/lib/api";
 import { canManageMembers } from "@/lib/permissions";
 import { getAuthOptions, getSessionIdentity } from "@/lib/session";
@@ -14,6 +15,7 @@ type TeamDetail = {
   name: string;
   slug: string;
   members: { id: string; email: string; name: string | null; role: string }[];
+  pendingInvites: { id: string; email: string; role: string; status: string }[];
 };
 
 export default async function TeamSettingsPage() {
@@ -35,6 +37,7 @@ export default async function TeamSettingsPage() {
   }
 
   const team = await apiFetch<TeamDetail>(`/api/teams/${firstTeam.id}`, authOptions);
+  const canManage = canManageMembers(firstTeam.role);
 
   return (
     <section style={{ display: "grid", gap: "20px", maxWidth: "760px" }}>
@@ -43,8 +46,9 @@ export default async function TeamSettingsPage() {
         <h1 style={{ margin: "0 0 8px" }}>{team.name}</h1>
         <p style={{ color: "var(--sf-muted)", margin: 0 }}>/{team.slug}</p>
       </div>
-      <TeamMemberList members={team.members} />
-      {canManageMembers(firstTeam.role) ? <InviteMemberForm teamId={team.id} /> : null}
+      <TeamSettingsForm canEdit={canManage} name={team.name} slug={team.slug} teamId={team.id} />
+      <TeamMemberList canManageMembers={canManage} members={team.members} pendingInvites={team.pendingInvites} teamId={team.id} />
+      {canManage ? <InviteMemberForm teamId={team.id} /> : null}
     </section>
   );
 }

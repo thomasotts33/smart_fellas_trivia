@@ -4,9 +4,9 @@ import { asyncHandler } from "../http/asyncHandler.js";
 import { HttpError } from "../http/errors.js";
 import { requireAuth } from "../middleware/auth.js";
 import { requireTeamAccess } from "../middleware/teamAccess.js";
-import { createTeamSchema, inviteMemberSchema } from "../schemas/teamSchemas.js";
-import { addTeamMemberByEmail } from "../services/teamMembers.js";
-import { createTeam, getTeamDetail } from "../services/teams.js";
+import { createTeamSchema, inviteMemberSchema, updateMemberRoleSchema, updateTeamSchema } from "../schemas/teamSchemas.js";
+import { addTeamMemberByEmail, removeTeamMember, updateTeamMemberRole } from "../services/teamMembers.js";
+import { createTeam, getTeamDetail, updateTeam } from "../services/teams.js";
 import type { AuthenticatedRequest } from "../types/auth.js";
 
 export const teamsRouter = Router();
@@ -28,6 +28,14 @@ function getRequiredTeamId(req: AuthenticatedRequest) {
     throw new HttpError(400, "Team id is required.");
   }
   return teamId;
+}
+
+function getRequiredMemberId(req: AuthenticatedRequest) {
+  const memberId = req.params.memberId;
+  if (!memberId || Array.isArray(memberId)) {
+    throw new HttpError(400, "Team member id is required.");
+  }
+  return memberId;
 }
 
 teamsRouter.post(
@@ -54,6 +62,16 @@ teamsRouter.get(
   }),
 );
 
+teamsRouter.patch(
+  "/teams/:teamId",
+  requireAuth,
+  requireTeamAccess("owner"),
+  asyncHandler<AuthenticatedRequest>(async (req, res) => {
+    const body = parseBody(updateTeamSchema, req.body);
+    res.json(await updateTeam({ teamId: getRequiredTeamId(req), ...body }));
+  }),
+);
+
 teamsRouter.post(
   "/teams/:teamId/members/invite",
   requireAuth,
@@ -66,5 +84,34 @@ teamsRouter.post(
       role: body.role,
     });
     res.status(201).json(result);
+  }),
+);
+
+teamsRouter.patch(
+  "/teams/:teamId/members/:memberId",
+  requireAuth,
+  requireTeamAccess("owner"),
+  asyncHandler<AuthenticatedRequest>(async (req, res) => {
+    const body = parseBody(updateMemberRoleSchema, req.body);
+    res.json(
+      await updateTeamMemberRole({
+        teamId: getRequiredTeamId(req),
+        memberId: getRequiredMemberId(req),
+        role: body.role,
+      }),
+    );
+  }),
+);
+
+teamsRouter.delete(
+  "/teams/:teamId/members/:memberId",
+  requireAuth,
+  requireTeamAccess("owner"),
+  asyncHandler<AuthenticatedRequest>(async (req, res) => {
+    await removeTeamMember({
+      teamId: getRequiredTeamId(req),
+      memberId: getRequiredMemberId(req),
+    });
+    res.status(204).send();
   }),
 );

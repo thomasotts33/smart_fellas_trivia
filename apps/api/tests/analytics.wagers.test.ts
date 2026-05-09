@@ -1,15 +1,12 @@
 import request from "supertest";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { auth } from "./auth.js";
 import { prisma } from "../src/db/prisma.js";
 import { createApp } from "../src/index.js";
 import { buildGamePayload } from "./gamePayload.js";
 
 const app = createApp();
 const ownerEmail = "phase3-wagers@smartfellas.test";
-
-function auth(email: string) {
-  return { Authorization: `Bearer ${email}` };
-}
 
 async function cleanup() {
   await prisma.game.deleteMany({ where: { team: { slug: { startsWith: "phase3-wagers" } } } });

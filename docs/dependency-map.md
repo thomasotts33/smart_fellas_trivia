@@ -94,7 +94,7 @@ flowchart LR
 
 ## Watch Items
 
-- The browser-side fallback identity in `apps/web/src/lib/api.ts` is useful for private beta but risky if a public deployment is misconfigured.
+- Browser requests now use the Next.js API proxy in `apps/web/src/app/api/backend/[...path]/route.ts`, which signs server-to-server API identity with `API_INTERNAL_SECRET`.
 - Dashboard performs several parallel endpoint calls; this is clean for MVP, but a single dashboard aggregate endpoint may be worth adding if hosted latency feels choppy.
 - `apps/api/src/generated/prisma` and build artifacts should stay out of architectural reasoning even though they exist in the workspace.
 - The QA checklist includes final question type expectations that should be compared against the current final question form before beta sharing.

@@ -8,6 +8,7 @@ dotenv.config();
 const envSchema = z.object({
   DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),
   NEXTAUTH_SECRET: z.string().min(1, "NEXTAUTH_SECRET is required"),
+  API_INTERNAL_SECRET: z.string().min(1).optional(),
   NEXTAUTH_URL: z.string().url("NEXTAUTH_URL must be a valid URL"),
   API_BASE_URL: z.string().url("API_BASE_URL must be a valid URL").default("http://localhost:4000"),
   WEB_ORIGIN: z.string().url("WEB_ORIGIN must be a valid URL").default("http://localhost:3000"),

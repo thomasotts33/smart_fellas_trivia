@@ -45,12 +45,49 @@ export async function createTeam(input: { name: string; slug?: string }, ownerId
   };
 }
 
+export async function updateTeam(input: { teamId: string; name: string; slug: string }) {
+  const slug = slugify(input.slug);
+
+  if (!slug) {
+    throw new HttpError(400, "Team slug must include letters or numbers.");
+  }
+
+  const existing = await prisma.team.findFirst({
+    where: {
+      slug,
+      NOT: { id: input.teamId },
+    },
+  });
+
+  if (existing) {
+    throw new HttpError(409, "That team slug is already taken.");
+  }
+
+  const team = await prisma.team.update({
+    where: { id: input.teamId },
+    data: {
+      name: input.name.trim(),
+      slug,
+    },
+  });
+
+  return {
+    id: team.id,
+    name: team.name,
+    slug: team.slug,
+  };
+}
+
 export async function getTeamDetail(teamId: string) {
   const team = await prisma.team.findUnique({
     where: { id: teamId },
     include: {
       members: {
         include: { user: true },
+        orderBy: { createdAt: "asc" },
+      },
+      invites: {
+        where: { status: "pending" },
         orderBy: { createdAt: "asc" },
       },
     },
@@ -69,6 +106,12 @@ export async function getTeamDetail(teamId: string) {
       role: member.role,
       email: member.user.email,
       name: member.user.name,
+    })),
+    pendingInvites: team.invites.map((invite) => ({
+      id: invite.id,
+      email: invite.email,
+      role: invite.role,
+      status: invite.status,
     })),
   };
 }
