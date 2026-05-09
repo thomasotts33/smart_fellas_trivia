@@ -15,17 +15,17 @@ POSTGRES_PASSWORD="replace-with-a-long-random-hex-password"
 DATABASE_URL="postgresql://smartfellas:replace-with-a-long-random-hex-password@db:5432/smartfellas"
 NEXTAUTH_URL="http://100.x.y.z:3000"
 NEXTAUTH_SECRET="replace-with-a-long-random-secret"
-GOOGLE_CLIENT_ID="your-google-client-id"
-GOOGLE_CLIENT_SECRET="your-google-client-secret"
-API_INTERNAL_SECRET="replace-with-a-different-long-random-secret"
 AUTH_TRUST_HOST=true
 API_BASE_URL="http://100.x.y.z:4000"
+NEXT_PUBLIC_API_BASE_URL="http://100.x.y.z:4000"
 WEB_ORIGIN="http://100.x.y.z:3000"
 PORT=4000
-SMARTFELLAS_DEV_AUTH_BYPASS=false
+SMARTFELLAS_PRIVATE_BETA_EMAIL="thomas@smartfellas.local"
+SMARTFELLAS_PRIVATE_BETA_NAME="Thomas"
+NEXT_PUBLIC_PRIVATE_BETA_EMAIL="thomas@smartfellas.local"
 ```
 
-Google OAuth should include the server callback URL, such as `http://100.x.y.z:3000/api/auth/callback/google`. Use `SMARTFELLAS_DEV_AUTH_BYPASS=true` only for local development, not for a shared private server.
+The private beta identity is only appropriate for a Tailscale-only deployment. Do not use it for a public internet deployment.
 
 Use an alphanumeric or hex-only Postgres password here. If the password includes URL-special characters, they must be URL-encoded in `DATABASE_URL`.
 

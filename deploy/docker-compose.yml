@@ -32,6 +32,8 @@ services:
       dockerfile: apps/web/Dockerfile
       args:
         API_BASE_URL: ${API_BASE_URL}
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+        NEXT_PUBLIC_PRIVATE_BETA_EMAIL: ${NEXT_PUBLIC_PRIVATE_BETA_EMAIL}
     restart: unless-stopped
     env_file: .env
     depends_on:

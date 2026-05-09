@@ -1,6 +1,5 @@
 import request from "supertest";
 import { afterEach, describe, expect, it } from "vitest";
-import { auth } from "./auth.js";
 import { prisma } from "../src/db/prisma.js";
 import { createApp } from "../src/index.js";
 
@@ -9,6 +8,10 @@ const ownerEmail = "phase1-owner@smartfellas.test";
 const memberEmail = "phase1-member@smartfellas.test";
 const outsiderEmail = "phase1-outsider@smartfellas.test";
 const invitedEmail = "phase1-invited@smartfellas.test";
+
+function auth(email: string) {
+  return { Authorization: `Bearer ${email}`, "x-user-name": email.split("@")[0] };
+}
 
 async function cleanup() {
   await prisma.team.deleteMany({
@@ -48,14 +51,6 @@ describe("team access APIs", () => {
 
     expect(response.status).toBe(401);
     expect(response.body.error).toBe("Authentication required.");
-  });
-
-  it("rejects forged authentication signatures", async () => {
-    const forgedAuth = { ...auth(ownerEmail), "x-smartfellas-auth-signature": "not-a-valid-signature" };
-    const response = await request(app).get("/api/me").set(forgedAuth);
-
-    expect(response.status).toBe(401);
-    expect(response.body.error).toBe("Invalid authentication signature.");
   });
 
   it("creates a team with owner membership and protects team detail", async () => {

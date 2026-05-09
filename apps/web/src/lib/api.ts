@@ -8,6 +8,7 @@ type ApiFetchOptions = RequestInit & {
 };
 
 const developmentEmail = "thomas@smartfellas.local";
+const privateBetaEmail = process.env.NEXT_PUBLIC_PRIVATE_BETA_EMAIL;
 
 export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): Promise<T> {
   const headers = new Headers(options.headers);
@@ -17,26 +18,10 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     headers.set("Content-Type", "application/json");
   }
 
-  const isBrowser = typeof window !== "undefined";
-  const token =
-    options.token ??
-    (!isBrowser && process.env.NODE_ENV === "development" && process.env.SMARTFELLAS_DEV_AUTH_BYPASS === "true" ? developmentEmail : undefined);
+  const token = options.token ?? privateBetaEmail ?? (process.env.NODE_ENV === "development" ? developmentEmail : undefined);
 
   if (token) {
-    if (isBrowser) {
-      headers.set("Authorization", `Bearer ${token}`);
-    } else {
-      const { signInternalAuthHeaders } = await import("./internalAuth");
-      const authHeaders = signInternalAuthHeaders({
-        email: token,
-        name: options.userName ?? null,
-        image: options.userImage ?? null,
-      });
-
-      for (const [key, value] of Object.entries(authHeaders)) {
-        headers.set(key, value);
-      }
-    }
+    headers.set("Authorization", `Bearer ${token}`);
   }
 
   if (options.userName) {
@@ -47,9 +32,7 @@ export async function apiFetch<T>(path: string, options: ApiFetchOptions = {}): 
     headers.set("x-user-image", options.userImage);
   }
 
-  const requestUrl = isBrowser ? `/api/backend${path.replace(/^\/api/, "")}` : `${clientConfig.API_BASE_URL}${path}`;
-
-  const response = await fetch(requestUrl, {
+  const response = await fetch(`${clientConfig.API_BASE_URL}${path}`, {
     ...options,
     cache: options.cache ?? "no-store",
     headers,

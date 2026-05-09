@@ -33,8 +33,6 @@ Use this before sharing SmartFellas with beta teammates.
 
 ## Team Access
 
-- [ ] Google sign-in creates or syncs the user profile.
-- [ ] Sign-out returns to `/sign-in` and protected routes redirect while signed out.
 - [ ] Owner/admin can add an existing user by email.
 - [ ] Unknown teammate email appears as a pending invite.
 - [ ] Pending invite resolves into membership when that email signs in.
@@ -44,7 +42,6 @@ Use this before sharing SmartFellas with beta teammates.
 - [ ] Member can view dashboard and games.
 - [ ] Member cannot see new-game, edit, or delete controls.
 - [ ] API denies unauthorized member edits even if the UI is bypassed.
-- [ ] API rejects forged or unsigned auth headers.
 
 ## Dashboard
 
@@ -65,10 +62,10 @@ Use this before sharing SmartFellas with beta teammates.
 
 ## Production Readiness
 
-- [ ] API host has `DATABASE_URL`, `NEXTAUTH_SECRET`, `API_INTERNAL_SECRET`, `NEXTAUTH_URL`, `API_BASE_URL`, `WEB_ORIGIN`, and `PORT`.
-- [ ] Web host has `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `API_INTERNAL_SECRET`, `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `API_BASE_URL`, and `AUTH_TRUST_HOST`.
+- [ ] API host has `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL`, `API_BASE_URL`, `WEB_ORIGIN`, and `PORT`.
+- [ ] Web host has `NEXTAUTH_URL`, `NEXTAUTH_SECRET`, `API_BASE_URL`, `NEXT_PUBLIC_API_BASE_URL`, and `AUTH_TRUST_HOST`.
 - [ ] Prisma migrations run against the production database.
-- [ ] Browser mutations go through the Next.js API proxy and API host rejects direct forged requests.
+- [ ] Vercel points browser requests at the hosted API, not localhost.
 
 ## Out of Scope for MVP
 

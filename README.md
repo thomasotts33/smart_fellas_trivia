@@ -22,33 +22,31 @@ For a normal PostgreSQL install on Windows, the core PostgreSQL server is enough
 1. Copy `.env.example` to `.env`.
 2. Set `DATABASE_URL` for your local PostgreSQL database.
 3. Set `NEXTAUTH_SECRET` to a long random value.
-4. Set `API_INTERNAL_SECRET` to a different long random value shared by the web app and API.
-5. For real teammate login, create Google OAuth credentials and set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. For local-only development without OAuth, set `SMARTFELLAS_DEV_AUTH_BYPASS=true`.
-6. Install packages:
+4. Install packages:
 
 ```powershell
 corepack pnpm install
 ```
 
-7. Generate Prisma Client:
+5. Generate Prisma Client:
 
 ```powershell
 corepack pnpm db:generate
 ```
 
-8. Apply migrations:
+6. Apply migrations:
 
 ```powershell
 corepack pnpm db:migrate
 ```
 
-9. Seed local sample data:
+7. Seed local sample data:
 
 ```powershell
 corepack pnpm db:seed
 ```
 
-10. Start both apps:
+8. Start both apps:
 
 ```powershell
 corepack pnpm dev
@@ -74,16 +72,14 @@ Use `.env.example` as the source of truth.
 
 - `DATABASE_URL`: PostgreSQL connection string.
 - `NEXTAUTH_URL`: Web app URL.
-- `NEXTAUTH_SECRET`: Auth.js session secret for the web app.
+- `NEXTAUTH_SECRET`: Shared auth secret for web and API.
 - `AUTH_TRUST_HOST`: `true` for hosted environments.
-- `GOOGLE_CLIENT_ID`: Google OAuth client ID for teammate sign-in.
-- `GOOGLE_CLIENT_SECRET`: Google OAuth client secret for teammate sign-in.
-- `API_INTERNAL_SECRET`: Shared server-to-server signing secret for trusted web-to-API requests.
 - `API_BASE_URL`: API URL used by server-side web requests.
-- `NEXT_PUBLIC_API_BASE_URL`: Optional API URL for public clients. Browser mutations normally use the Next.js API proxy so identity can be signed server-side.
+- `NEXT_PUBLIC_API_BASE_URL`: API URL used by browser-side web requests.
 - `WEB_ORIGIN`: Web origin allowed by the API CORS policy.
 - `PORT`: API port.
-- `SMARTFELLAS_DEV_AUTH_BYPASS`: Set to `true` only for local development without OAuth.
+- `SMARTFELLAS_PRIVATE_BETA_EMAIL`: Optional Tailscale-only fallback identity for private beta deployments.
+- `NEXT_PUBLIC_PRIVATE_BETA_EMAIL`: Browser-side private beta identity for direct API form submissions. Do not use for public internet deployments.
 
 ## Deployment
 
@@ -95,11 +91,9 @@ Use `.env.example` as the source of truth.
 
 ```env
 NEXTAUTH_URL="https://YOUR-WEB-HOST"
-NEXTAUTH_SECRET="long-random-auth-secret"
-GOOGLE_CLIENT_ID="your-google-client-id"
-GOOGLE_CLIENT_SECRET="your-google-client-secret"
-API_INTERNAL_SECRET="same-long-random-internal-secret-as-api"
+NEXTAUTH_SECRET="same-secret-as-api"
 API_BASE_URL="https://YOUR-API-HOST"
+NEXT_PUBLIC_API_BASE_URL="https://YOUR-API-HOST"
 AUTH_TRUST_HOST=true
 ```
 
